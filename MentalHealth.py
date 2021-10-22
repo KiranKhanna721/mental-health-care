@@ -58,7 +58,6 @@ st.write(data.head(2))
 X = data.drop("treatment",axis=1)
 y = data["treatment"]
 
-@st.cache
 def add_parameters_csv(clf_name):
     p = dict()
     if clf_name == "KNN":
@@ -85,7 +84,6 @@ def add_parameters_csv(clf_name):
     return p
 p = add_parameters_csv(classifiers)
 
-@st.cache
 def get_Classifier_csv(clf_name,p):
     if clf_name == "KNN":
         clf = KNeighborsClassifier(n_neighbors=p["K"])
