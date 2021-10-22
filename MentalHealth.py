@@ -5,7 +5,6 @@ import streamlit as st
 import streamlit.components.v1 as components 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LogisticRegression
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -18,7 +17,7 @@ st.title("Mental Health Prediction")
 st.write("""
 #Explore different ML algorithms
 """)
-classifiers = st.sidebar.selectbox("Select Classifier",("KNN","SVC","LogisticRegression","Decision Tree","Random Forest","NaiveBayes"))
+classifiers = st.sidebar.selectbox("Select Classifier",("SVC","LogisticRegression","Decision Tree","Random Forest","NaiveBayes"))
 st.write(classifiers)
 data = pd.read_csv("survey.csv")
 data.drop(columns=['Timestamp', 'Country', 'state', 'comments'], inplace = True)
@@ -60,10 +59,7 @@ y = data["treatment"]
 
 def add_parameters_csv(clf_name):
     p = dict()
-    if clf_name == "KNN":
-        K = st.sidebar.slider("K",1,30)
-        p["K"] = K
-    elif clf_name == "SVC":
+    if clf_name == "SVC":
         C = st.sidebar.slider("C",0.01,15.0)
         p["C"] = C
     elif clf_name == "Random Forest":
@@ -85,9 +81,7 @@ def add_parameters_csv(clf_name):
 p = add_parameters_csv(classifiers)
 
 def get_Classifier_csv(clf_name,p):
-    if clf_name == "KNN":
-        clf = KNeighborsClassifier(n_neighbors=p["K"])
-    elif clf_name == "SVC":
+    if clf_name == "SVC":
         clf = SVC(C=p["C"])
     elif clf_name == "Random Forest":
         clf = RandomForestClassifier(n_estimators=p["n_estimators"],max_depth=p["max_depth"],random_state=1200)
